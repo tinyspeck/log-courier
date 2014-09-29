@@ -39,6 +39,7 @@ log-courier: | $(BINS)
 gem: | fix_version
 	gem build log-courier.gemspec
 
+<<<<<<< HEAD
 gem_plugins: | fix_version
 	gem build logstash-input-log-courier.gemspec
 	gem build logstash-output-log-courier.gemspec
@@ -49,6 +50,10 @@ push_gems: | gem gem_plugins
 test: | all vendor/bundle/.GemfileModT
 	go get -d -tags "$(TAGS)" $(GOTESTS)
 	go test -tags "$(TAGS)" $(GOTESTS)
+=======
+test: all vendor/bundle/.GemfileModT
+	go test -tags "$(TAGS)" lc-admin lc-curvekey lc-lib/... lc-tlscert log-courier
+>>>>>>> Add Go line reader tests
 	bundle exec rspec $(TESTS)
 
 selfsigned: | bin/lc-tlscert
