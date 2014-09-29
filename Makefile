@@ -7,11 +7,7 @@ export GOPATH := $(GOPATH)
 TAGS :=
 BINS := bin/log-courier bin/lc-tlscert bin/lc-admin
 GOTESTS := log-courier lc-tlscert lc-admin lc-lib/...
-TESTS := spec/courier_spec.rb spec/tcp_spec.rb spec/gem_spec.rb
-
-ifneq (,$(findstring curvekey,$(MAKECMDGOALS)))
-with := zmq4
-endif
+TESTS := spec/courier_spec.rb spec/tcp_spec.rb spec/gem_spec.rb spec/multiline_spec.rb
 
 ifeq ($(with),zmq3)
 TAGS := $(TAGS) zmq zmq_3_x
@@ -39,21 +35,9 @@ log-courier: | $(BINS)
 gem: | fix_version
 	gem build log-courier.gemspec
 
-<<<<<<< HEAD
-gem_plugins: | fix_version
-	gem build logstash-input-log-courier.gemspec
-	gem build logstash-output-log-courier.gemspec
-
-push_gems: | gem gem_plugins
-	build/push_gems
-
-test: | all vendor/bundle/.GemfileModT
+test: all vendor/bundle/.GemfileModT
 	go get -d -tags "$(TAGS)" $(GOTESTS)
 	go test -tags "$(TAGS)" $(GOTESTS)
-=======
-test: all vendor/bundle/.GemfileModT
-	go test -tags "$(TAGS)" lc-admin lc-curvekey lc-lib/... lc-tlscert log-courier
->>>>>>> Add Go line reader tests
 	bundle exec rspec $(TESTS)
 
 selfsigned: | bin/lc-tlscert
