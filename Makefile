@@ -81,10 +81,7 @@ ifneq ($(implyclean),yes)
 	rm -f *.gem
 endif
 
-fix_version:
-	build/fix_version
-
-prepare: | fix_version
+go-check:
 	@go version >/dev/null || (echo "Go not found. You need to install Go version 1.2 or 1.3: http://golang.org/doc/install"; false)
 	@go version | grep -q 'go version go1.[23]' || (echo "Go version 1.2 or 1.3 required, you have a version of Go that is not supported."; false)
 	@echo "GOPATH: $${GOPATH}"
